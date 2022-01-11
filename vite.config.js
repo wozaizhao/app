@@ -25,15 +25,19 @@ export default defineConfig({
                 // ws:true,
                 changOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, '/'),
+                // pathRewrite: {
+                //     '^/api': '/',
+                // },
             },
             '/images': {
-                target: 'http://img.yidianyuan.club/',
+                target: 'http://static.wozaizhao.com',
                 // target: 'http://106.15.180.7:8000/',
                 // ws:true,
                 changOrigin: true,
-                pathRewrite: {
-                    '^/images': '/',
-                },
+                rewrite: (path) => path.replace(/^\/images/, '/'),
+                // pathRewrite: {
+                //     '^/images': '/',
+                // },
             },
         },
     },

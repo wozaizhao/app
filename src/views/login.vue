@@ -1,61 +1,51 @@
 <template>
-    <div class="register full-screen bg-white pt-5">
-        <van-config-provider :theme-vars="themeVars">
-            <van-form @submit="onSubmit">
-                <van-cell-group inset>
-                    <van-field
-                        v-model="phone"
-                        :maxlength="11"
-                        type="digit"
-                        name="phone"
-                        clearable
-                        @clear="onPhoneClear"
-                        placeholder="输入手机号(新号码自动注册)"
-                    />
-                    <van-field
-                        v-model="code"
-                        name="code"
-                        :maxlength="6"
-                        type="digit"
-                        center
-                        clearable
-                        placeholder="输入验证码"
-                    >
-                        <template #button>
-                            <van-button :disabled="!sendReady" size="small" @click="onGetCaptcha" type="primary"
-                                >获取验证码</van-button
-                            >
-                        </template>
-                    </van-field>
-                    <p id="captchaBox"></p>
-                </van-cell-group>
-                <div style="margin: 16px">
-                    <van-button
-                        round
-                        block
-                        :loading="submiting"
-                        loading-text="登录中..."
-                        type="primary"
-                        :disabled="!submitReady"
-                        native-type="submit"
-                    >
-                        登录
-                    </van-button>
-                </div>
-            </van-form>
-            <div class="fixed w-full bottom-0 text-center text-gray-400">
-                <div class="p-2">
-                    <span>登录注册即代表你同意 我在找《服务协议》与《隐私政策》</span>
-                    <br />
-                    <span>未注册用户将直接为你创建帐户</span>
-                </div>
+    <div class="register w-screen h-screen bg-white pt-5">
+        <van-form @submit="onSubmit">
+            <van-cell-group inset>
+                <van-field
+                    v-model="phone"
+                    :maxlength="11"
+                    type="digit"
+                    name="phone"
+                    clearable
+                    @clear="onPhoneClear"
+                    placeholder="输入手机号(新号码自动注册)"
+                />
+                <van-field v-model="code" name="code" :maxlength="6" type="digit" center placeholder="输入验证码">
+                    <template #button>
+                        <van-button :disabled="!sendReady" size="small" @click="onGetCaptcha" type="primary">{{
+                            captchaText
+                        }}</van-button>
+                    </template>
+                </van-field>
+                <p id="captchaBox"></p>
+            </van-cell-group>
+            <div style="margin: 16px">
+                <van-button
+                    round
+                    block
+                    :loading="submiting"
+                    loading-text="登录中..."
+                    type="primary"
+                    :disabled="!submitReady"
+                    native-type="submit"
+                >
+                    登录
+                </van-button>
             </div>
-        </van-config-provider>
+        </van-form>
+        <div class="fixed w-full bottom-0 text-center text-gray-400">
+            <div class="p-2">
+                <span>登录注册即代表你同意 我在找《服务协议》与《隐私政策》</span>
+                <br />
+                <span>未注册用户将直接为你创建帐户</span>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, onBeforeUnmount } from 'vue';
 import { requestCaptcha, login, getRouter } from '../api';
 
 export default {
@@ -63,11 +53,28 @@ export default {
         const phone = ref('');
         const code = ref('');
         const submiting = ref(false);
-        const themeVars = {
-            buttonPrimaryColor: '#191919',
-            buttonPrimaryBorderColor: '#191919',
-            buttonPrimaryBackgroundColor: '#fff451',
+        const timing = ref(false);
+        const countDown = ref(0);
+        const interval = ref(0);
+
+        const captchaText = computed(() => (timing.value ? `${countDown.value} 秒后获取` : '获取验证码'));
+
+        const startCountDown = () => {
+            countDown.value = 60;
+            timing.value = true;
+            interval.value = setInterval(() => {
+                countDown.value -= 1;
+                if (countDown.value < 1) {
+                    clearInterval(interval.value);
+                    timing.value = false;
+                }
+            }, 1000);
         };
+
+        onBeforeUnmount(() => {
+            clearInterval(interval.value);
+        });
+
         const geetestReady = ref(false);
         const geetestSuccess = ref(false);
         const onSubmit = (values) => {
@@ -95,7 +102,7 @@ export default {
             geetest.captchaObj.showBox();
         };
 
-        const sendReady = computed(() => /^1[3-9]\d{9}$/.test(phone.value) && geetestReady.value);
+        const sendReady = computed(() => /^1[3-9]\d{9}$/.test(phone.value) && geetestReady.value && !timing.value);
 
         const submitReady = computed(() => code.value && geetestSuccess.value);
 
@@ -117,6 +124,7 @@ export default {
                     .onSuccess(function () {
                         //your code
                         const result = captchaObj.getValidate();
+                        startCountDown();
                         const data = Object.assign(result, { phone: phone.value });
                         requestCaptcha(data).then((res) => {
                             const { status } = res;
@@ -138,12 +146,12 @@ export default {
             phone,
             code,
             onSubmit,
-            themeVars,
             onGetCaptcha,
             onPhoneClear,
             sendReady,
             submitReady,
             submiting,
+            captchaText,
         };
     },
 };

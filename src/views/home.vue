@@ -1,17 +1,22 @@
 <template>
     <div class="home">
-        <HelloWorld msg="Welcome to Your Vue.js App" />
+        <tarbar></tarbar>
     </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '../components/HelloWorld.vue';
+import { onMounted } from 'vue';
+import tarbar from '../components/tarbar.vue';
+import { isLoggedIn } from '../api';
 
 export default {
-    name: 'HomeL',
     components: {
-        HelloWorld,
+        tarbar,
+    },
+    setup() {
+        onMounted(() => {
+            console.log('isLoggedIn', isLoggedIn());
+        });
     },
 };
 </script>

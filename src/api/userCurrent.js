@@ -26,12 +26,12 @@ export const isLoggedIn = () => {
     return currentUser() ? true : false;
 };
 
-export const requestUserEndpoint = async (method, data) => {
-    const endpoint = `/user/${method}`;
-    const r = await endpointFetch(endpoint, data);
+// export const requestUserEndpoint = async (method, params) => {
+//     const endpoint = `/user/${method}`;
+//     const r = await endpointFetch(endpoint, null, { method: 'get', params });
 
-    return r;
-};
+//     return r;
+// };
 
 export const cacheUser = ({ user }) => {
     if (user && user.userId) storeItem(user.userId, user);
@@ -54,7 +54,7 @@ export const setCurrentUser = (args) => {
     if (!user) return deleteCurrentUser();
 
     storeItem('currentUser', user);
-    cacheUser({ user });
+    // cacheUser({ user });
 
     if (token) {
         clientToken({ action: 'set', token });
@@ -86,12 +86,11 @@ export const requestCurrentUser = async () => {
     let user = undefined;
 
     if (token) {
-        const { status, data, code } = await requestUserEndpoint('currentUser', {
-            token,
-        });
+        const endpoint = '/api/user/currentUser';
+        const { status, data } = await endpointFetch(endpoint, null, { method: 'get' });
 
         // If there is a token error, then delete it and force login
-        if (status == 'error' && code == 'TOKEN_ERROR') {
+        if (status == 'error') {
             logout();
         }
 

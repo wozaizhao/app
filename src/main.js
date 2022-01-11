@@ -1,5 +1,17 @@
 import { createApp } from 'vue';
-import { ConfigProvider, Form, Field, CellGroup, Button } from 'vant';
+import {
+    ConfigProvider,
+    Form,
+    Field,
+    CellGroup,
+    Button,
+    Tabbar,
+    TabbarItem,
+    Cell,
+    NavBar,
+    Image as VanImage,
+    Icon,
+} from 'vant';
 
 import { getRouter, addRoutes } from './api/router';
 import { getStore } from './api/store';
@@ -57,7 +69,13 @@ export const factorApp = async () => {
     app.use(Form);
     app.use(Field);
     app.use(CellGroup);
+    app.use(Cell);
     app.use(Button);
+    app.use(Tabbar);
+    app.use(TabbarItem);
+    app.use(NavBar);
+    app.use(VanImage);
+    app.use(Icon);
 
     await router.isReady();
 
