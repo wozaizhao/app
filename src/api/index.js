@@ -5,3 +5,4 @@ export * from './jwt';
 export * from './router';
 export * from './store';
 export * from './userCurrent';
+export * from './wechat';

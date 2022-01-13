@@ -22,9 +22,9 @@ export const activeUser = computed(() => {
 /**
  * Is the current visitor logged in?
  */
-export const isLoggedIn = () => {
+export const isLoggedIn = computed(() => {
     return currentUser() ? true : false;
-};
+});
 
 // export const requestUserEndpoint = async (method, params) => {
 //     const endpoint = `/user/${method}`;

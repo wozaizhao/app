@@ -11,6 +11,7 @@ import {
     NavBar,
     Image as VanImage,
     Icon,
+    ActionSheet,
 } from 'vant';
 
 import { getRouter, addRoutes } from './api/router';
@@ -76,6 +77,7 @@ export const factorApp = async () => {
     app.use(NavBar);
     app.use(VanImage);
     app.use(Icon);
+    app.use(ActionSheet);
 
     await router.isReady();
 
