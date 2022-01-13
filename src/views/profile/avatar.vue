@@ -2,7 +2,7 @@
     <div class="update-avatar">
         <van-nav-bar title="修改头像" left-arrow @click-left="goBack">
             <template #right>
-                <van-icon name="ellipsis" @click="showMenu" />
+                <van-icon v-show="sdkReady" name="ellipsis" @click="showMenu" />
             </template>
         </van-nav-bar>
         <div class="img-container table-cell align-middle">
@@ -19,11 +19,12 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { Toast } from 'vant';
 import mixinApp from '../../mixins/app';
-import { activeUser } from '../../api';
+import { activeUser, isWeixin, useWx } from '../../api';
 import config from '../../config';
+
 export default {
     mixins: [mixinApp],
     setup() {
@@ -35,11 +36,26 @@ export default {
             show.value = false;
             Toast(item.name);
         };
-        const showMenu = () => {
-            show.value = true;
+        const showMenu = async () => {
+            // show.value = true;
+            const imgs = await wxChooseImage();
+            console.log('imgs', imgs);
         };
         const onCancel = () => {
             show.value = false;
+        };
+        const sdkReady = ref(false);
+        const { initSDK, wxChooseImage } = useWx();
+        onMounted(async () => {
+            if (isWeixin()) {
+                await initSDK();
+                sdkReady.value = true;
+            }
+        });
+
+        const chooseImage = async () => {
+            const imgs = await wxChooseImage();
+            console.log('imgs', imgs);
         };
 
         return {
@@ -50,6 +66,8 @@ export default {
             activeUser,
             showMenu,
             onCancel,
+            sdkReady,
+            chooseImage,
         };
     },
 };
