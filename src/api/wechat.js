@@ -12,7 +12,7 @@ export const isWeixin = () => {
 export const getJsConfig = async (params) => {
     const endpoint = '/api/wechat/getConfig';
     const r = await endpointFetch(endpoint, null, { method: 'get', params });
-    return r;
+    return r.data;
 };
 
 export const useWx = () => {
