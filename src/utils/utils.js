@@ -66,3 +66,24 @@ export const sortPriority = (arr) => {
 //     }
 //   }
 // }
+
+export const readFileContent = (file, resultType) => {
+    console.log('readFileContent', file);
+    return new Promise((resolve) => {
+        if (resultType === 'file') {
+            resolve();
+            return;
+        }
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+            resolve(event.target.result);
+        };
+
+        if (resultType === 'dataUrl') {
+            reader.readAsDataURL(file);
+        } else if (resultType === 'text') {
+            reader.readAsText(file);
+        }
+    });
+};

@@ -26,6 +26,11 @@ import 'lib-flexible/flexible.js';
 
 import './plugins/gt4';
 
+import VConsole from 'vconsole';
+
+// eslint-disable-next-line
+const vConsole = new VConsole();
+
 // 全局引入按需引入UI库 vant
 // import './plugins/vant';
 // 引入全局样式
