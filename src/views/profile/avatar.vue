@@ -60,7 +60,10 @@ export default {
         const showMenu = async () => {
             if (isWeixin()) {
                 const imgs = await wxChooseImage();
-                console.log('imgs', imgs);
+                cropImg.value = imgs[0];
+                setTimeout(() => {
+                    cropImage();
+                }, 500);
             } else {
                 actionSheetShow.value = true;
             }
