@@ -29,6 +29,7 @@ export const useWx = () => {
                 'openLocation',
                 'getLocation',
                 'chooseImage',
+                'getLocalImgData',
                 'updateAppMessageShareData',
                 'updateTimelineShareData',
                 'onMenuShareAppMessage',
@@ -81,6 +82,21 @@ export const useWx = () => {
             });
         });
     };
+
+    const wxGetLocalImgData = (localId) => {
+        return new Promise((resolve, reject) => {
+            wx.getLocalImgData({
+                localId, // 图片的localID
+                success: function (res) {
+                    resolve(res.localData); // localData是图片的base64数据，可以用img标签显示
+                },
+                fail: function (err) {
+                    reject(err);
+                },
+            });
+        });
+    };
+
     const scanQrcode = () => {
         return new Promise((resolve, reject) => {
             wx.scanQRCode({
@@ -205,6 +221,7 @@ export const useWx = () => {
         initSDK,
         getEnv,
         wxChooseImage,
+        wxGetLocalImgData,
         scanQrcode,
         // postMessage,
         getLocation,

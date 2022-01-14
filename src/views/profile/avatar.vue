@@ -60,7 +60,7 @@ export default {
         const showMenu = async () => {
             if (isWeixin()) {
                 const imgs = await wxChooseImage();
-                cropImg.value = imgs[0];
+                cropImg.value = await wxGetLocalImgData(imgs[0]);
                 setTimeout(() => {
                     cropImage();
                 }, 500);
@@ -83,7 +83,7 @@ export default {
         };
 
         const sdkReady = ref(false);
-        const { initSDK, wxChooseImage } = useWx();
+        const { initSDK, wxChooseImage, wxGetLocalImgData } = useWx();
         onMounted(async () => {
             if (isWeixin()) {
                 await initSDK();
