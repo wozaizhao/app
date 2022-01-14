@@ -1,7 +1,7 @@
 <template>
     <div class="profile">
         <div v-if="isLoggedIn" class="flex bg-white items-center py-2 px-3" @click="goTo('profile')">
-            <van-image round width="2rem" height="2rem" :src="activeUser.avatar_url || config.defaultAvatar" />
+            <van-image round width="2rem" height="2rem" :src="imgURL(activeUser.avatarUrl) || config.defaultAvatar" />
             <div class="ml-1 w-20 flex-1 flex flex-col">
                 <span class="font-size-18 text-gray-900 text-ellipsis whitespace-nowrap overflow-hidden">{{
                     activeUser.nickname
@@ -40,6 +40,7 @@ import tarbar from '../components/tarbar.vue';
 import mixinApp from '../mixins/app';
 import { isLoggedIn, activeUser, logout } from '../api';
 import config from '../config';
+import { imgURL } from '../utils';
 // import { onMounted } from 'vue';
 
 export default {
@@ -53,6 +54,7 @@ export default {
             isLoggedIn,
             activeUser,
             logout,
+            imgURL,
         };
     },
 };

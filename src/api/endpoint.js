@@ -1,4 +1,4 @@
-import { updateUser } from './userCurrent';
+import { updateUser } from './user';
 import { getRouter } from './router';
 
 import axios from 'axios';

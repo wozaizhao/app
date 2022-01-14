@@ -1,3 +1,5 @@
+import config from '../config';
+
 /**
  * Remove keys from an object
  */
@@ -86,4 +88,11 @@ export const readFileContent = (file, resultType) => {
             reader.readAsText(file);
         }
     });
+};
+
+export const imgURL = (key) => {
+    if (key) {
+        return config.imgPrefix + key;
+    }
+    return key;
 };

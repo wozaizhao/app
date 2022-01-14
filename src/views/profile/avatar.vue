@@ -6,13 +6,23 @@
             </template>
         </van-nav-bar>
         <div class="img-container table-cell align-middle">
-            <img v-if="cropImg" id="cropImg" :src="cropImg" alt="avatar" />
-            <van-image v-else class="w-screen" :src="activeUser.avatar_url || config.defaultAvatar" />
+            <img v-if="cropImg" class="w-screen block" id="cropImg" :src="cropImg" alt="avatar" />
+            <van-image v-else class="w-screen" :src="imgURL(activeUser.avatarUrl) || config.defaultAvatar" />
         </div>
-        <input id="inputFile" type="file" @change="onFileChange" accept="image/png, image/jpeg" />
-        <input id="inputCapture" type="file" capture @change="onCaptureChange" accept="image/png, image/jpeg" />
+        <div v-if="cropImg" class="w-full text-center fixed bottom-5">
+            <van-button type="primary" @click="save">保存</van-button>
+        </div>
+        <input id="inputFile" class="opacity-0" type="file" @change="onFileChange" accept="image/png, image/jpeg" />
+        <input
+            id="inputCapture"
+            class="opacity-0"
+            type="file"
+            capture
+            @change="onCaptureChange"
+            accept="image/png, image/jpeg"
+        />
         <van-action-sheet
-            v-model:show="show"
+            v-model:show="actionSheetShow"
             cancel-text="取消"
             :actions="actions"
             @select="onSelect"
@@ -27,52 +37,48 @@ import 'cropperjs/dist/cropper.css';
 import Cropper from 'cropperjs';
 // import { Toast } from 'vant';
 import mixinApp from '../../mixins/app';
-import { activeUser, isWeixin, useWx } from '../../api';
+import { activeUser, isWeixin, useWx, upload, updateUserInfo, requestCurrentUser } from '../../api';
 import config from '../../config';
-import { readFileContent } from '../../utils';
+import { readFileContent, imgURL } from '../../utils';
 
 export default {
     mixins: [mixinApp],
     setup() {
-        const show = ref(false);
+        const actionSheetShow = ref(false);
         const actions = [{ name: '拍照' }, { name: '从手机相册选择' }];
         const onSelect = (item) => {
-            // 默认情况下点击选项时不会自动收起
-            // 可以通过 close-on-click-action 属性开启自动收起
-            show.value = false;
+            actionSheetShow.value = false;
             if (item.name === '拍照') {
                 document.getElementById('inputCapture').click();
             } else if (item.name === '从手机相册选择') {
                 document.getElementById('inputFile').click();
             }
-            // Toast(item.name);
+        };
+        const onCancel = () => {
+            actionSheetShow.value = false;
         };
         const showMenu = async () => {
             if (isWeixin()) {
                 const imgs = await wxChooseImage();
                 console.log('imgs', imgs);
             } else {
-                show.value = true;
+                actionSheetShow.value = true;
             }
         };
         const cropImg = ref('');
         const onFileChange = async (e) => {
-            console.log('onFileChange', e);
             cropImg.value = await readFileContent(e.target.files[0], 'dataUrl');
             setTimeout(() => {
                 cropImage();
             }, 500);
         };
         const onCaptureChange = async (e) => {
-            console.log('onCaptureChange', e);
             cropImg.value = await readFileContent(e.target.files[0], 'dataUrl');
             setTimeout(() => {
                 cropImage();
             }, 500);
         };
-        const onCancel = () => {
-            show.value = false;
-        };
+
         const sdkReady = ref(false);
         const { initSDK, wxChooseImage } = useWx();
         onMounted(async () => {
@@ -83,11 +89,6 @@ export default {
                 sdkReady.value = true;
             }
         });
-
-        const chooseImage = async () => {
-            const imgs = await wxChooseImage();
-            console.log('imgs', imgs);
-        };
 
         const imageResize = reactive({
             cropper: null,
@@ -104,21 +105,28 @@ export default {
                     dragMode: 'move',
                     cropBoxMovable: false,
                     cropBoxResizable: false,
-                    crop(event) {
-                        console.log(event.detail.x);
-                        console.log(event.detail.y);
-                        console.log(event.detail.width);
-                        console.log(event.detail.height);
-                        console.log(event.detail.rotate);
-                        console.log(event.detail.scaleX);
-                        console.log(event.detail.scaleY);
-                    },
                 });
             }
         };
 
+        const save = () => {
+            imageResize.cropper.getCroppedCanvas().toBlob(async (blob) => {
+                const formData = new FormData();
+                formData.append('file', blob);
+                const { status: uploadStatus, data: uploadData } = await upload(formData);
+                if (uploadStatus === 'success') {
+                    const { status, data } = await updateUserInfo({ avatarUrl: uploadData.key });
+                    if (status === 'success' && data) {
+                        requestCurrentUser();
+                        imageResize.cropper.destroy();
+                        cropImg.value = '';
+                    }
+                }
+            });
+        };
+
         return {
-            show,
+            actionSheetShow,
             actions,
             onSelect,
             config,
@@ -126,10 +134,11 @@ export default {
             showMenu,
             onCancel,
             sdkReady,
-            chooseImage,
             onFileChange,
             onCaptureChange,
             cropImg,
+            save,
+            imgURL,
         };
     },
 };
@@ -138,9 +147,5 @@ export default {
 <style>
 .img-container {
     height: calc(100vh - 46px);
-}
-#cropImg {
-    display: block;
-    max-width: 100%;
 }
 </style>

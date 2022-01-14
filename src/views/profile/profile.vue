@@ -3,7 +3,12 @@
         <van-nav-bar title="个人信息" left-arrow @click-left="goBack" />
         <van-cell-group>
             <van-cell center title="头像" is-link to="updateAvatar">
-                <van-image round width="1.5rem" height="1.5rem" :src="activeUser.avatar_url || config.defaultAvatar" />
+                <van-image
+                    round
+                    width="1.5rem"
+                    height="1.5rem"
+                    :src="imgURL(activeUser.avatarUrl) || config.defaultAvatar"
+                />
             </van-cell>
             <van-cell title="手机号" is-link :value="activeUser.phone" to="updateProfile" />
             <van-cell
@@ -22,6 +27,7 @@
 import mixinApp from '../../mixins/app';
 import { activeUser } from '../../api';
 import config from '../../config';
+import { imgURL } from '../../utils';
 
 export default {
     mixins: [mixinApp],
@@ -29,6 +35,7 @@ export default {
         return {
             config,
             activeUser,
+            imgURL,
         };
     },
 };

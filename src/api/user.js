@@ -7,6 +7,24 @@ import { getRouter, loginRoute, routeAuthRedirects } from './router';
 import { stored, storeItem } from './store';
 import { endpointFetch } from './endpoint';
 
+export const requestCaptcha = async (params) => {
+    const endpoint = '/api/captcha';
+    const r = await endpointFetch(endpoint, null, { method: 'get', params });
+    return r;
+};
+
+export const login = async (data) => {
+    const endpoint = '/api/loginByPhone';
+    const r = await endpointFetch(endpoint, data);
+    return r;
+};
+
+export const updateUserInfo = async (data) => {
+    const endpoint = '/api/user/edit';
+    const r = await endpointFetch(endpoint, data, { method: 'put' });
+    return r;
+};
+
 /**
  * Information for the currently logged in user
  */
@@ -94,7 +112,7 @@ export const requestCurrentUser = async () => {
             logout();
         }
 
-        user = data;
+        user = data.user;
 
         if (user) {
             setCurrentUser({ user });
