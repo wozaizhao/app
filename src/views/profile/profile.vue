@@ -10,15 +10,30 @@
                     :src="imgURL(activeUser.avatarUrl) || config.defaultAvatar"
                 />
             </van-cell>
-            <van-cell title="手机号" is-link :value="activeUser.phone" to="updateProfile" />
+            <van-cell
+                title="手机号"
+                is-link
+                :value="activeUser.phone"
+                :to="{ name: 'updateProfile', params: { method: 'phone' } }"
+            />
             <van-cell
                 title="昵称"
                 is-link
                 :value="activeUser.nickname"
-                :to="{ name: 'updateProfile', params: { nickname: '君落羽' } }"
+                :to="{ name: 'updateProfile', params: { method: 'nickname' } }"
             />
-            <van-cell title="性别" is-link :value="activeUser.gender" />
-            <van-cell title="简介" is-link :value="activeUser.bio || config.defaultBio" />
+            <van-cell
+                title="性别"
+                is-link
+                :value="activeUser.gender"
+                :to="{ name: 'updateProfile', params: { method: 'gender' } }"
+            />
+            <van-cell
+                title="简介"
+                is-link
+                :value="activeUser.bio || config.defaultBio"
+                :to="{ name: 'updateProfile', params: { method: 'bio' } }"
+            />
         </van-cell-group>
     </div>
 </template>

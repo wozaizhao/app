@@ -12,6 +12,9 @@ import {
     Image as VanImage,
     Icon,
     ActionSheet,
+    RadioGroup,
+    Radio,
+    // Picker,
 } from 'vant';
 
 import { getRouter, addRoutes } from './api/router';
@@ -83,6 +86,9 @@ export const factorApp = async () => {
     app.use(VanImage);
     app.use(Icon);
     app.use(ActionSheet);
+    app.use(RadioGroup);
+    app.use(Radio);
+    // app.use(Picker);
 
     await router.isReady();
 

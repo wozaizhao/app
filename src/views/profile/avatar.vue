@@ -35,7 +35,7 @@
 import { onMounted, ref, reactive } from 'vue';
 import 'cropperjs/dist/cropper.css';
 import Cropper from 'cropperjs';
-// import { Toast } from 'vant';
+import { Toast } from 'vant';
 import mixinApp from '../../mixins/app';
 import { activeUser, isWeixin, useWx, upload, updateUserInfo, requestCurrentUser } from '../../api';
 import config from '../../config';
@@ -112,18 +112,34 @@ export default {
             }
         };
 
+        const saveSuccess = () => {
+            requestCurrentUser();
+            imageResize.cropper.destroy();
+            cropImg.value = '';
+        };
+
+        const saveFail = () => {
+            Toast.clear();
+        };
+
         const save = () => {
             imageResize.cropper.getCroppedCanvas().toBlob(async (blob) => {
+                Toast.loading({
+                    message: '上传中...',
+                    forbidClick: true,
+                });
                 const formData = new FormData();
                 formData.append('file', blob);
                 const { status: uploadStatus, data: uploadData } = await upload(formData);
                 if (uploadStatus === 'success') {
                     const { status, data } = await updateUserInfo({ avatarUrl: uploadData.key });
                     if (status === 'success' && data) {
-                        requestCurrentUser();
-                        imageResize.cropper.destroy();
-                        cropImg.value = '';
+                        saveSuccess();
+                    } else {
+                        saveFail();
                     }
+                } else {
+                    saveFail();
                 }
             });
         };
