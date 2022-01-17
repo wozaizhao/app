@@ -1,5 +1,5 @@
 <template>
-    <van-tabbar class="tarbar" route :value="active" fixed active-color="#c7be40">
+    <van-tabbar class="tarbar" route :value="active" fixed active-color="#fcd34d">
         <van-tabbar-item name="home" icon="search" replace to="/">搜索</van-tabbar-item>
         <van-tabbar-item name="apps" icon="apps-o" replace to="/apps">应用</van-tabbar-item>
         <!-- <van-tabbar-item icon="fire-o" replace to="/cate">动态</van-tabbar-item> -->
