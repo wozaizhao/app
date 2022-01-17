@@ -29,7 +29,7 @@
             <van-cell title="单元格" is-link value="内容" />
         </van-cell-group>
         <div class="p-2">
-            <van-button round block type="primary" @click="logout">退出</van-button>
+            <van-button plain round block type="primary" @click="logout">退出</van-button>
         </div>
         <tarbar></tarbar>
     </div>
