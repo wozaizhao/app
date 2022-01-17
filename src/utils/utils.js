@@ -1,4 +1,5 @@
 import config from '../config';
+import { getRouter } from '../api';
 
 /**
  * Remove keys from an object
@@ -95,4 +96,14 @@ export const imgURL = (key) => {
         return config.imgPrefix + key;
     }
     return key;
+};
+
+export const genderText = (gender) => {
+    return gender === config.genderMale ? '男' : gender === config.genderFemale ? '女' : '未知';
+};
+
+export const delayGoBack = () => {
+    setTimeout(() => {
+        getRouter().back();
+    }, 1000);
 };

@@ -123,25 +123,30 @@ export default {
         };
 
         const save = () => {
-            imageResize.cropper.getCroppedCanvas().toBlob(async (blob) => {
-                Toast.loading({
-                    message: '上传中...',
-                    forbidClick: true,
-                });
-                const formData = new FormData();
-                formData.append('file', blob);
-                const { status: uploadStatus, data: uploadData } = await upload(formData);
-                if (uploadStatus === 'success') {
-                    const { status, data } = await updateUserInfo({ avatarUrl: uploadData.key });
-                    if (status === 'success' && data) {
-                        saveSuccess();
+            imageResize.cropper
+                .getCroppedCanvas({
+                    width: 200,
+                    height: 200,
+                })
+                .toBlob(async (blob) => {
+                    Toast.loading({
+                        message: '上传中...',
+                        forbidClick: true,
+                    });
+                    const formData = new FormData();
+                    formData.append('file', blob);
+                    const { status: uploadStatus, data: uploadData } = await upload(formData);
+                    if (uploadStatus === 'success') {
+                        const { status, data } = await updateUserInfo({ avatarUrl: uploadData.key });
+                        if (status === 'success' && data) {
+                            saveSuccess();
+                        } else {
+                            saveFail();
+                        }
                     } else {
                         saveFail();
                     }
-                } else {
-                    saveFail();
-                }
-            });
+                });
         };
 
         return {

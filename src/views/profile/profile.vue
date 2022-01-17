@@ -25,7 +25,7 @@
             <van-cell
                 title="性别"
                 is-link
-                :value="activeUser.gender"
+                :value="genderText(activeUser.gender)"
                 :to="{ name: 'updateProfile', params: { method: 'gender' } }"
             />
             <van-cell
@@ -42,6 +42,7 @@
 import mixinApp from '../../mixins/app';
 import { activeUser } from '../../api';
 import config from '../../config';
+import { genderText } from '../../utils';
 import { imgURL } from '../../utils';
 
 export default {
@@ -51,6 +52,7 @@ export default {
             config,
             activeUser,
             imgURL,
+            genderText,
         };
     },
 };

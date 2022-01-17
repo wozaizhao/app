@@ -36,7 +36,10 @@
         </van-form>
         <div class="fixed w-full bottom-0 text-center text-gray-400">
             <div class="p-2">
-                <span>登录注册即代表你同意 我在找《服务协议》与《隐私政策》</span>
+                <span
+                    >登录注册即代表你同意 我在找 <a class="text-cyan-700" href="">《服务协议》</a> 与
+                    <a class="text-cyan-700" href="">《隐私政策》</a>
+                </span>
                 <br />
                 <span>未注册用户将直接为你创建帐户</span>
             </div>

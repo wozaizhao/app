@@ -11,6 +11,11 @@ export default {
         goBack() {
             getRouter().back();
         },
+        delayGoBack() {
+            setTimeout(() => {
+                this.goBack();
+            }, 1000);
+        },
         goHome() {
             getRouter().push('/');
         },
