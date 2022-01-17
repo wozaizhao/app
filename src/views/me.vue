@@ -3,10 +3,10 @@
         <div v-if="isLoggedIn" class="flex bg-white items-center py-2 px-3" @click="goTo('profile')">
             <van-image round width="2rem" height="2rem" :src="imgURL(activeUser.avatarUrl) || config.defaultAvatar" />
             <div class="ml-2 w-20 flex-1 flex flex-col">
-                <span class="font-size-18 text-gray-900 text-ellipsis whitespace-nowrap overflow-hidden">{{
+                <span class="text-base text-gray-900 text-ellipsis whitespace-nowrap overflow-hidden">{{
                     activeUser.nickname
                 }}</span>
-                <span class="font-size-16 text-gray-400 mt-1 text-ellipsis whitespace-nowrap overflow-hidden">{{
+                <span class="text-sm text-gray-400 mt-1 text-ellipsis whitespace-nowrap overflow-hidden">{{
                     activeUser.bio || config.defaultBio
                 }}</span>
             </div>
@@ -15,7 +15,7 @@
         <div v-else class="flex bg-white items-center py-2 px-3">
             <van-image round width="2rem" height="2rem" :src="config.defaultAvatar" />
             <div class="ml-2 w-20 flex-1 flex flex-col">
-                <router-link class="font-size-18 text-gray-900" to="/login">去登录</router-link>
+                <router-link class="text-base text-gray-900" to="/login">去登录</router-link>
             </div>
         </div>
         <van-cell-group class="mt-1">
