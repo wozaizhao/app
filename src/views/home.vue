@@ -7,14 +7,14 @@
 <script>
 import { onMounted } from 'vue';
 import tarbar from '../components/tarbar.vue';
-import { isWeixin, useWx } from '../api';
+import { isWeixin, initSDK } from '../api';
 
 export default {
     components: {
         tarbar,
     },
     setup() {
-        const { initSDK } = useWx();
+        // const { initSDK } = useWx();
         onMounted(async () => {
             // console.log('isLoggedIn', isLoggedIn());
             if (isWeixin()) {

@@ -37,7 +37,16 @@ import 'cropperjs/dist/cropper.css';
 import Cropper from 'cropperjs';
 import { Toast } from 'vant';
 import mixinApp from '../../mixins/app';
-import { activeUser, isWeixin, useWx, upload, updateUserInfo, requestCurrentUser } from '../../api';
+import {
+    activeUser,
+    isWeixin,
+    initSDK,
+    wxChooseImage,
+    wxGetLocalImgData,
+    upload,
+    updateUserInfo,
+    requestCurrentUser,
+} from '../../api';
 import config from '../../config';
 import { readFileContent, imgURL } from '../../utils';
 
@@ -83,7 +92,7 @@ export default {
         };
 
         const sdkReady = ref(false);
-        const { initSDK, wxChooseImage, wxGetLocalImgData } = useWx();
+        // const { initSDK, wxChooseImage, wxGetLocalImgData } = useWx();
         onMounted(async () => {
             if (isWeixin()) {
                 await initSDK();
