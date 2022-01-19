@@ -14,7 +14,6 @@ export default {
         tarbar,
     },
     setup() {
-        // const { initSDK } = useWx();
         onMounted(async () => {
             // console.log('isLoggedIn', isLoggedIn());
             if (isWeixin()) {

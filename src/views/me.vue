@@ -3,12 +3,8 @@
         <div v-if="isLoggedIn" class="flex bg-white items-center py-2 px-3" @click="goTo('profile')">
             <van-image round width="2rem" height="2rem" :src="imgURL(activeUser.avatarUrl) || config.defaultAvatar" />
             <div class="ml-2 w-20 flex-1 flex flex-col">
-                <span class="text-base text-gray-900 text-ellipsis whitespace-nowrap overflow-hidden">{{
-                    activeUser.nickname
-                }}</span>
-                <span class="text-sm text-gray-400 mt-1 text-ellipsis whitespace-nowrap overflow-hidden">{{
-                    activeUser.bio || config.defaultBio
-                }}</span>
+                <span class="text-base text-gray-900 truncate">{{ activeUser.nickname }}</span>
+                <span class="text-sm text-gray-400 mt-1 truncate">{{ activeUser.bio || config.defaultBio }}</span>
             </div>
             <van-icon name="arrow" size="20" color="#969799" />
         </div>

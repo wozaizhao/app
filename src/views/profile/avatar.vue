@@ -92,7 +92,6 @@ export default {
         };
 
         const sdkReady = ref(false);
-        // const { initSDK, wxChooseImage, wxGetLocalImgData } = useWx();
         onMounted(async () => {
             if (isWeixin()) {
                 await initSDK();
