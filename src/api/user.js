@@ -19,6 +19,12 @@ export const login = async (data) => {
     return r;
 };
 
+export const shortcutLogin = async (data) => {
+    const endpoint = '/api/shortcutLogin';
+    const r = await endpointFetch(endpoint, data);
+    return r;
+};
+
 export const updateUserInfo = async (data) => {
     const endpoint = '/api/user/edit';
     const r = await endpointFetch(endpoint, data, { method: 'put' });
