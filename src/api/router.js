@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { isLoggedIn, shortcutLogin } from './user';
+import { currentUser, shortcutLogin } from './user';
 import { dLog } from '../utils';
 import { getAppGlobal, setAppGlobal } from '../utils';
 
@@ -15,8 +15,8 @@ const routerHooks = (router) => {
         const openID = to.query.openid;
         console.log('openID', openID);
         // const isLoggedIn = isLoggedIn();
-        console.log('isLoggedIn', isLoggedIn());
-        if (openID && !isLoggedIn()) {
+        console.log('isLoggedIn', currentUser());
+        if (openID && !currentUser()) {
             // do
             shortcutLogin({
                 openID,
