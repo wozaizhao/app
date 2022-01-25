@@ -7,22 +7,18 @@ import { getAppGlobal, setAppGlobal } from '../utils';
  * Add the hooks on changes
  */
 const routerHooks = (router) => {
-    router.afterEach((to) => {
+    router.afterEach(async (to) => {
         /**
          * Add query hook functionality
          * uses _action param to call a hook from query
          */
         const openID = to.query.openid;
-        console.log('openID', openID);
-        // const isLoggedIn = isLoggedIn();
-        console.log('isLoggedIn', currentUser());
         if (openID && !currentUser()) {
-            // do
-            shortcutLogin({
-                openID,
-            }).then((res) => {
-                console.log(res);
-            });
+            try {
+                await shortcutLogin({ openID });
+            } catch (e) {
+                console.log(e);
+            }
         }
         // const queryHook = to.query._action;
         // if (queryHook) {

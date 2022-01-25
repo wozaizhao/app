@@ -36,7 +36,6 @@ export const initSDK = () => {
             'onMenuShareTimeline',
         ];
         getJsConfig(params).then((res) => {
-            console.log('getJsConfig res', res);
             wx.config({
                 debug: false,
                 appId: res.app_id,
@@ -103,7 +102,6 @@ export const scanQrcode = () => {
             needResult: 1,
             scanType: ['qrCode'],
             success(res) {
-                console.log(res.resultStr);
                 resolve(res.resultStr);
             },
             fail(err) {
