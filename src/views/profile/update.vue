@@ -86,7 +86,7 @@ export default {
             }
             const { status, data } = await updateUserInfo(params);
             if (status === 'success' && data) {
-                requestCurrentUser();
+                await requestCurrentUser();
                 delayGoBack();
             }
         };

@@ -93,6 +93,9 @@ export const readFileContent = (file, resultType) => {
 
 export const imgURL = (key) => {
     if (key) {
+        if (key.includes('http')) {
+            return key;
+        }
         return config.imgPrefix + key;
     }
     return key;
