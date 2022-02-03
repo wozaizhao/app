@@ -1,6 +1,4 @@
-// import type { UserFetch, UserEndpoint } from '@factor/server/user';
 import { computed } from 'vue';
-// import { emitEvent } from "./event"
 import { clientToken } from './jwt';
 import { dLog } from '../utils';
 import { getRouter, loginRoute, routeAuthRedirects } from './router';
@@ -9,25 +7,25 @@ import { endpointFetch } from './endpoint';
 
 export const requestCaptcha = async (params) => {
     const endpoint = '/api/captcha';
-    const r = await endpointFetch(endpoint, null, { method: 'get', params });
+    const r = await endpointFetch(endpoint, 'get', params);
     return r;
 };
 
 export const login = async (data) => {
     const endpoint = '/api/loginByPhone';
-    const r = await endpointFetch(endpoint, data);
+    const r = await endpointFetch(endpoint, 'post', data);
     return r;
 };
 
 export const shortcutLogin = async (data) => {
     const endpoint = '/api/shortcutLogin';
-    const r = await endpointFetch(endpoint, data);
+    const r = await endpointFetch(endpoint, 'post', data);
     return r;
 };
 
 export const updateUserInfo = async (data) => {
     const endpoint = '/api/user/edit';
-    const r = await endpointFetch(endpoint, data, { method: 'put' });
+    const r = await endpointFetch(endpoint, 'put', data);
     return r;
 };
 
@@ -50,13 +48,6 @@ export const isLoggedIn = computed(() => {
     return currentUser() ? true : false;
 });
 
-// export const requestUserEndpoint = async (method, params) => {
-//     const endpoint = `/user/${method}`;
-//     const r = await endpointFetch(endpoint, null, { method: 'get', params });
-
-//     return r;
-// };
-
 export const cacheUser = ({ user }) => {
     if (user && user.userId) storeItem(user.userId, user);
 };
@@ -78,7 +69,6 @@ export const setCurrentUser = (args) => {
     if (!user) return deleteCurrentUser();
 
     storeItem('currentUser', user);
-    // cacheUser({ user });
 
     if (token) {
         clientToken({ action: 'set', token });
@@ -89,8 +79,6 @@ export const setCurrentUser = (args) => {
  */
 export const logout = async (args = {}) => {
     deleteCurrentUser();
-    //   emitEvent("logout")
-    //   emitEvent("notify", "Successfully logged out.")
 
     const theCurrentRoute = getRouter().currentRoute.value;
 
@@ -111,7 +99,7 @@ export const requestCurrentUser = async () => {
 
     if (token) {
         const endpoint = '/api/user/currentUser';
-        const { status, data } = await endpointFetch(endpoint, null, { method: 'get' });
+        const { status, data } = await endpointFetch(endpoint, 'get');
 
         // If there is a token error, then delete it and force login
         if (status == 'error') {

@@ -18,26 +18,11 @@ export default defineConfig({
     ],
     server: {
         proxy: {
-            //配置跨域
+            //配置代理
             '/api': {
                 target: 'http://127.0.0.1:9090/',
-                // target: 'http://106.15.180.7:8000/',
-                // ws:true,
                 changOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, '/'),
-                // pathRewrite: {
-                //     '^/api': '/',
-                // },
-            },
-            '/images': {
-                target: 'http://static.wozaizhao.com',
-                // target: 'http://106.15.180.7:8000/',
-                // ws:true,
-                changOrigin: true,
-                rewrite: (path) => path.replace(/^\/images/, '/'),
-                // pathRewrite: {
-                //     '^/images': '/',
-                // },
             },
         },
     },

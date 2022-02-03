@@ -4,7 +4,6 @@ import { getRouter } from './router';
 import axios from 'axios';
 import { Toast } from 'vant';
 
-// import { emitEvent } from './event';
 import { clientToken } from './jwt';
 import { dLog } from '../utils';
 
@@ -14,17 +13,11 @@ import { dLog } from '../utils';
  */
 export const endpointRequest = async (options = {}) => {
     const { headers = {}, method } = options;
-
-    // Must be capitalized as name is a standard
     const Authorization = `Bearer ${clientToken({ action: 'get' })}`;
-
-    // Allow endpoints to deduce which app is requesting from them
     const source = 'app';
 
     options.headers = { Authorization, from: source, ...headers };
-
     options.method = method ?? 'POST';
-
     options.baseURL = '';
 
     dLog('info', 'http request', options);
@@ -90,17 +83,17 @@ export const endpointRequest = async (options = {}) => {
     return data;
 };
 
-export const endpointFetch = async (url, data, options = {}) => {
+export const endpointFetch = async (url, method, data, options = {}) => {
+    const requestData = method === 'get' ? { params: data } : { data };
     const r = await endpointRequest({
         url,
-        data,
+        method,
+        ...requestData,
         ...options,
     });
 
     if (r.message) {
         Toast(r.message);
-        // const notifyType = r.status == 'error' ? 'notifyError' : 'notifySuccess';
-        // emitEvent(notifyType, { message: r.message, more: r.more })
     }
 
     if (r.data.user) {

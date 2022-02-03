@@ -8,10 +8,6 @@ import { getAppGlobal, setAppGlobal } from '../utils';
  */
 const routerHooks = (router) => {
     router.afterEach(async (to) => {
-        /**
-         * Add query hook functionality
-         * uses _action param to call a hook from query
-         */
         const openID = to.query.openid;
         if (openID && !currentUser()) {
             try {
@@ -20,10 +16,6 @@ const routerHooks = (router) => {
                 console.log(e);
             }
         }
-        // const queryHook = to.query._action;
-        // if (queryHook) {
-        //     //   runCallbacks(`routeQueryAction`, to)
-        // }
     });
 };
 /**

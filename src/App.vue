@@ -1,8 +1,5 @@
 <script setup>
 const themeVars = {
-    // buttonPrimaryColor: '#fff',
-    // buttonPrimaryBorderColor: '#0e7490',
-    // buttonPrimaryBackgroundColor: '#0e7490',
     navBarIconColor: '#333',
 };
 

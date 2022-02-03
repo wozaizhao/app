@@ -39,7 +39,7 @@ const methods = {
     gender: '性别',
     bio: '简介',
 };
-const columns = ['男', '女'];
+// const columns = ['男', '女'];
 export default {
     mixins: [mixinApp],
     setup() {
@@ -98,7 +98,7 @@ export default {
             phone,
             nickname,
             bio,
-            columns,
+            // columns,
             gender,
             save,
         };

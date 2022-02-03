@@ -52,24 +52,6 @@ export const sortPriority = (arr) => {
     });
 };
 
-/**
- * Throttle a function to run only every period
- */
-// export const throttle = (
-//   func,
-//   period,
-// ) => {
-//   let inThrottle;
-
-//   return function (this, ...args) {
-//     if (!inThrottle) {
-//       inThrottle = true
-//       func.apply(this, args)
-//       setTimeout(() => (inThrottle = false), period)
-//     }
-//   }
-// }
-
 export const readFileContent = (file, resultType) => {
     console.log('readFileContent', file);
     return new Promise((resolve) => {

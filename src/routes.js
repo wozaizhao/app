@@ -39,6 +39,4 @@ export const routes = [
         name: 'updateAvatar',
         component: () => import('./views/profile/avatar.vue'),
     },
-    //   ...blogRoutes,
-    //   ...docsRoutes,
 ];

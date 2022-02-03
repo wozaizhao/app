@@ -11,11 +11,10 @@ export const isWeixin = () => {
 
 export const getJsConfig = async (params) => {
     const endpoint = '/api/wechat/getConfig';
-    const r = await endpointFetch(endpoint, null, { method: 'get', params });
+    const r = await endpointFetch(endpoint, 'get', params);
     return r.data;
 };
 
-// export const useWx = () => {
 export const initSDK = () => {
     return new Promise((resolve, reject) => {
         if (!isWeixin()) {
@@ -110,11 +109,7 @@ export const scanQrcode = () => {
         });
     });
 };
-// const postMessage = (message) => {
-//   wx.miniProgram.postMessage({
-//     data: message
-//   })
-// },
+
 export const openLocation = (params) => {
     if (!isWeixin()) {
         return;
@@ -214,19 +209,3 @@ export const setMenuShareTimeline = (params) => {
         });
     });
 };
-
-//     return {
-//         initSDK,
-//         getEnv,
-//         wxChooseImage,
-//         wxGetLocalImgData,
-//         scanQrcode,
-//         // postMessage,
-//         getLocation,
-//         openLocation,
-//         setAppMessageShareData,
-//         setTimelineShareData,
-//         setMenuShareAppMessage,
-//         setMenuShareTimeline,
-//     };
-// };
