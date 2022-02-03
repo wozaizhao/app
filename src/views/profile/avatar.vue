@@ -1,6 +1,6 @@
 <template>
     <div class="update-avatar">
-        <van-nav-bar title="修改头像" left-arrow @click-left="goBack">
+        <van-nav-bar v-if="!inWechat" title="修改头像" left-arrow @click-left="goBack">
             <template #right>
                 <van-icon v-show="sdkReady" name="ellipsis" @click="showMenu" />
             </template>
@@ -8,6 +8,9 @@
         <div class="img-container table-cell align-middle">
             <img v-if="cropImg" class="w-screen block" id="cropImg" :src="cropImg" alt="avatar" />
             <van-image v-else class="w-screen" :src="imgURL(activeUser.avatarUrl) || config.defaultAvatar" />
+        </div>
+        <div v-if="inWechat" class="w-full text-center fixed bottom-5">
+            <van-button v-show="sdkReady && !cropImg" type="primary" @click="showMenu">更改头像</van-button>
         </div>
         <div v-if="cropImg" class="w-full text-center fixed bottom-5">
             <van-button type="primary" @click="save">保存</van-button>
@@ -32,7 +35,7 @@
 </template>
 
 <script>
-import { onMounted, ref, reactive } from 'vue';
+import { onMounted, ref, reactive, computed } from 'vue';
 import 'cropperjs/dist/cropper.css';
 import Cropper from 'cropperjs';
 import { Toast } from 'vant';
@@ -77,6 +80,9 @@ export default {
                 actionSheetShow.value = true;
             }
         };
+        const inWechat = computed(() => {
+            return isWeixin();
+        });
         const cropImg = ref('');
         const onFileChange = async (e) => {
             cropImg.value = await readFileContent(e.target.files[0], 'dataUrl');
@@ -158,6 +164,7 @@ export default {
         };
 
         return {
+            inWechat,
             actionSheetShow,
             actions,
             onSelect,

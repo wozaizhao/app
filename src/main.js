@@ -25,10 +25,10 @@ import 'lib-flexible/flexible.js';
 
 import './plugins/gt4';
 
-import VConsole from 'vconsole';
+// import VConsole from 'vconsole';
 
 // eslint-disable-next-line
-const vConsole = new VConsole();
+// const vConsole = new VConsole();
 
 // 引入全局样式
 import './style/index.less';

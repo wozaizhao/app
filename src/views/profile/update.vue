@@ -1,13 +1,13 @@
 <template>
-    <div class="update-profile">
-        <van-nav-bar :title="title" left-arrow @click-left="goBack">
+    <div class="update-profile h-screen bg-white">
+        <van-nav-bar v-if="!inWechat" :title="title" left-arrow @click-left="goBack">
             <template #right>
                 <van-button type="primary" class="px-1.5" size="small" @click="save"> 保存 </van-button>
             </template>
         </van-nav-bar>
         <van-cell-group>
-            <van-field v-if="method === 'phone'" v-model="phone" placeholder="请输入手机号" />
-            <van-field v-else-if="method === 'nickname'" v-model="nickname" placeholder="请输入昵称" />
+            <van-field v-if="method === 'phone'" clearable v-model="phone" placeholder="请输入手机号" />
+            <van-field v-else-if="method === 'nickname'" clearable v-model="nickname" placeholder="请输入昵称" />
             <van-radio-group v-else-if="method === 'gender'" v-model="gender">
                 <van-cell-group>
                     <van-cell title="男" clickable @click="gender = '1'">
@@ -22,15 +22,20 @@
                     </van-cell>
                 </van-cell-group>
             </van-radio-group>
-            <van-field v-else-if="method === 'bio'" v-model="bio" placeholder="请输入简介" />
+            <van-field v-else-if="method === 'bio'" clearable v-model="bio" placeholder="请输入简介" />
         </van-cell-group>
+        <div v-if="inWechat" class="fixed w-full bottom-5">
+            <div class="p-2">
+                <van-button round block type="primary" @click="save">保存</van-button>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import { ref, onMounted, computed } from 'vue';
 import { Toast } from 'vant';
-import { activeUser, getRouter, updateUserInfo, requestCurrentUser } from '../../api';
+import { activeUser, getRouter, updateUserInfo, isWeixin, requestCurrentUser } from '../../api';
 import mixinApp from '../../mixins/app';
 import { delayGoBack } from '../../utils';
 const methods = {
@@ -43,6 +48,9 @@ const methods = {
 export default {
     mixins: [mixinApp],
     setup() {
+        const inWechat = computed(() => {
+            return isWeixin();
+        });
         const method = ref('');
         onMounted(() => {
             method.value = getRouter().currentRoute.value.params.method || '';
@@ -92,6 +100,7 @@ export default {
         };
 
         return {
+            inWechat,
             activeUser,
             method,
             title,

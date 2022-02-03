@@ -1,6 +1,6 @@
 <template>
     <div class="profile">
-        <van-nav-bar title="个人信息" left-arrow @click-left="goBack" />
+        <van-nav-bar v-if="!inWechat" title="个人信息" left-arrow @click-left="goBack" />
         <van-cell-group>
             <van-cell center title="头像" is-link to="updateAvatar">
                 <van-image
@@ -39,8 +39,9 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 import mixinApp from '../../mixins/app';
-import { activeUser } from '../../api';
+import { activeUser, isWeixin } from '../../api';
 import config from '../../config';
 import { genderText } from '../../utils';
 import { imgURL } from '../../utils';
@@ -48,7 +49,11 @@ import { imgURL } from '../../utils';
 export default {
     mixins: [mixinApp],
     setup() {
+        const inWechat = computed(() => {
+            return isWeixin();
+        });
         return {
+            inWechat,
             config,
             activeUser,
             imgURL,
