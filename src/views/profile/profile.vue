@@ -41,7 +41,7 @@
 <script>
 import { onMounted, ref } from 'vue';
 import mixinApp from '../../mixins/app';
-import { activeUser, getEnv } from '../../api';
+import { activeUser, getEnv, isWeixin } from '../../api';
 import config from '../../config';
 import { genderText } from '../../utils';
 import { imgURL } from '../../utils';
@@ -51,8 +51,11 @@ export default {
     setup() {
         const isWeapp = ref(false);
         onMounted(async () => {
-            const env = await getEnv();
-            isWeapp.value = env.miniprogram;
+            if (isWeixin()) {
+                const env = await getEnv();
+                isWeapp.value = env.miniprogram;
+            }
+            document.title = '个人信息';
         });
         return {
             isWeapp,

@@ -99,13 +99,14 @@ export default {
         const sdkReady = ref(false);
         onMounted(async () => {
             if (isWeixin()) {
+                const env = await getEnv();
+                isWeapp.value = env.miniprogram;
                 await initSDK();
                 sdkReady.value = true;
             } else {
                 sdkReady.value = true;
             }
-            const env = await getEnv();
-            isWeapp.value = env.miniprogram;
+            document.title = '修改头像';
         });
 
         const imageResize = reactive({
