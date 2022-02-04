@@ -1,5 +1,5 @@
 <template>
-    <div class="update-profile h-screen bg-white">
+    <div class="update-profile">
         <van-nav-bar v-if="!isWeapp" :title="title" left-arrow @click-left="goBack">
             <template #right>
                 <van-button type="primary" class="px-1.5" size="small" @click="save"> 保存 </van-button>
