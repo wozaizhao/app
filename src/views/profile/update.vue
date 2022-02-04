@@ -52,11 +52,11 @@ export default {
         const method = ref('');
         onMounted(async () => {
             method.value = getRouter().currentRoute.value.params.method || '';
-            const env = await getEnv();
             if (isWeixin()) {
+                const env = await getEnv();
                 isWeapp.value = env.miniprogram;
-                document.title = '修改' + methods[method.value];
             }
+            document.title = '修改' + methods[method.value];
         });
 
         const title = computed(() => {
