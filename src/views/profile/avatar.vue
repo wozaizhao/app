@@ -1,6 +1,6 @@
 <template>
     <div class="update-avatar">
-        <van-nav-bar v-if="!inWechat" title="修改头像" left-arrow @click-left="goBack">
+        <van-nav-bar v-if="!isWeapp" title="修改头像" left-arrow @click-left="goBack">
             <template #right>
                 <van-icon v-show="sdkReady" name="ellipsis" @click="showMenu" />
             </template>
@@ -9,7 +9,7 @@
             <img v-if="cropImg" class="w-screen block" id="cropImg" :src="cropImg" alt="avatar" />
             <van-image v-else class="w-screen" :src="imgURL(activeUser.avatarUrl) || config.defaultAvatar" />
         </div>
-        <div v-if="inWechat" class="w-full text-center fixed bottom-5">
+        <div v-if="isWeapp" class="w-full text-center fixed bottom-5">
             <van-button v-show="sdkReady && !cropImg" type="primary" @click="showMenu">更改头像</van-button>
         </div>
         <div v-if="cropImg" class="w-full text-center fixed bottom-5">
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { onMounted, ref, reactive, computed } from 'vue';
+import { onMounted, ref, reactive } from 'vue';
 import 'cropperjs/dist/cropper.css';
 import Cropper from 'cropperjs';
 import { Toast } from 'vant';
@@ -49,6 +49,7 @@ import {
     upload,
     updateUserInfo,
     requestCurrentUser,
+    getEnv,
 } from '../../api';
 import config from '../../config';
 import { readFileContent, imgURL } from '../../utils';
@@ -80,9 +81,7 @@ export default {
                 actionSheetShow.value = true;
             }
         };
-        const inWechat = computed(() => {
-            return isWeixin();
-        });
+        const isWeapp = ref(false);
         const cropImg = ref('');
         const onFileChange = async (e) => {
             cropImg.value = await readFileContent(e.target.files[0], 'dataUrl');
@@ -105,6 +104,8 @@ export default {
             } else {
                 sdkReady.value = true;
             }
+            const env = await getEnv();
+            isWeapp.value = env.miniprogram;
         });
 
         const imageResize = reactive({
@@ -164,7 +165,7 @@ export default {
         };
 
         return {
-            inWechat,
+            isWeapp,
             actionSheetShow,
             actions,
             onSelect,

@@ -1,6 +1,6 @@
 <template>
     <div class="profile">
-        <van-nav-bar v-if="!inWechat" title="个人信息" left-arrow @click-left="goBack" />
+        <van-nav-bar v-if="!isWeapp" title="个人信息" left-arrow @click-left="goBack" />
         <van-cell-group>
             <van-cell center title="头像" is-link to="updateAvatar">
                 <van-image
@@ -39,9 +39,9 @@
 </template>
 
 <script>
-import { computed } from 'vue';
+import { onMounted, ref } from 'vue';
 import mixinApp from '../../mixins/app';
-import { activeUser, isWeixin } from '../../api';
+import { activeUser, getEnv } from '../../api';
 import config from '../../config';
 import { genderText } from '../../utils';
 import { imgURL } from '../../utils';
@@ -49,11 +49,13 @@ import { imgURL } from '../../utils';
 export default {
     mixins: [mixinApp],
     setup() {
-        const inWechat = computed(() => {
-            return isWeixin();
+        const isWeapp = ref(false);
+        onMounted(async () => {
+            const env = await getEnv();
+            isWeapp.value = env.miniprogram;
         });
         return {
-            inWechat,
+            isWeapp,
             config,
             activeUser,
             imgURL,

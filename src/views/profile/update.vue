@@ -1,6 +1,6 @@
 <template>
     <div class="update-profile h-screen bg-white">
-        <van-nav-bar v-if="!inWechat" :title="title" left-arrow @click-left="goBack">
+        <van-nav-bar v-if="!isWeapp" :title="title" left-arrow @click-left="goBack">
             <template #right>
                 <van-button type="primary" class="px-1.5" size="small" @click="save"> 保存 </van-button>
             </template>
@@ -24,7 +24,7 @@
             </van-radio-group>
             <van-field v-else-if="method === 'bio'" clearable v-model="bio" placeholder="请输入简介" />
         </van-cell-group>
-        <div v-if="inWechat" class="fixed w-full bottom-5">
+        <div v-if="isWeapp" class="fixed w-full bottom-5">
             <div class="p-2">
                 <van-button round block type="primary" @click="save">保存</van-button>
             </div>
@@ -48,14 +48,12 @@ const methods = {
 export default {
     mixins: [mixinApp],
     setup() {
-        const inWechat = computed(() => {
-            return isWeixin();
-        });
+        const isWeapp = ref(false);
         const method = ref('');
         onMounted(async () => {
             method.value = getRouter().currentRoute.value.params.method || '';
             const env = await getEnv();
-            console.log('env', env);
+            isWeapp.value = env.miniprogram;
         });
 
         const title = computed(() => {
@@ -102,7 +100,7 @@ export default {
         };
 
         return {
-            inWechat,
+            isWeapp,
             activeUser,
             method,
             title,
