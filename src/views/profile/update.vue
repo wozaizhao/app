@@ -35,7 +35,7 @@
 <script>
 import { ref, onMounted, computed } from 'vue';
 import { Toast } from 'vant';
-import { activeUser, getRouter, updateUserInfo, isWeixin, requestCurrentUser, getEnv } from '../../api';
+import { activeUser, getRouter, updateUserInfo, requestCurrentUser, getEnv } from '../../api';
 import mixinApp from '../../mixins/app';
 import { delayGoBack } from '../../utils';
 const methods = {
