@@ -35,7 +35,7 @@
 <script>
 import { ref, onMounted, computed } from 'vue';
 import { Toast } from 'vant';
-import { activeUser, getRouter, updateUserInfo, isWeixin, requestCurrentUser } from '../../api';
+import { activeUser, getRouter, updateUserInfo, isWeixin, requestCurrentUser, getEnv } from '../../api';
 import mixinApp from '../../mixins/app';
 import { delayGoBack } from '../../utils';
 const methods = {
@@ -52,8 +52,10 @@ export default {
             return isWeixin();
         });
         const method = ref('');
-        onMounted(() => {
+        onMounted(async () => {
             method.value = getRouter().currentRoute.value.params.method || '';
+            const env = await getEnv();
+            console.log('env', env);
         });
 
         const title = computed(() => {
