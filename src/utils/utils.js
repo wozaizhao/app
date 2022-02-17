@@ -1,5 +1,5 @@
 import config from '../config';
-import { getRouter } from '../api';
+import { getRouter, stored } from '../api';
 
 /**
  * Remove keys from an object
@@ -91,4 +91,22 @@ export const delayGoBack = () => {
     setTimeout(() => {
         getRouter().back();
     }, 1000);
+};
+
+const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+const isDarkMode = () => {
+    return mediaQuery.matches;
+};
+
+const switchTheme = (theme) => {
+    document.documentElement.setAttribute('data-theme', theme);
+};
+
+export const initDarkMode = () => {
+    let theme = stored('theme');
+    if (!theme) {
+        theme = isDarkMode() ? 'dark' : 'light';
+    }
+    switchTheme(theme);
 };

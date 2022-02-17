@@ -64,6 +64,10 @@ export const getEnv = () => {
     });
 };
 
+export const postMessage = () => {
+    wx.miniProgram.postMessage({ data: 'foo' });
+};
+
 export const wxChooseImage = () => {
     return new Promise((resolve, reject) => {
         wx.chooseImage({

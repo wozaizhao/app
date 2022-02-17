@@ -20,6 +20,7 @@ import {
 import { getRouter, addRoutes } from './api/router';
 import { getStore } from './api/store';
 import { routes } from './routes';
+import { initDarkMode } from './utils';
 import App from './App.vue';
 import 'lib-flexible/flexible.js';
 
@@ -40,6 +41,7 @@ const setupApp = async () => {
     if (userConfig.routes) {
         addRoutes(userConfig.routes);
     }
+    initDarkMode();
     return userConfig;
 };
 
