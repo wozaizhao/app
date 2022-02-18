@@ -64,8 +64,8 @@ export const getEnv = () => {
     });
 };
 
-export const postMessage = () => {
-    wx.miniProgram.postMessage({ data: 'foo' });
+export const wxPostMessage = (data) => {
+    wx.miniProgram.postMessage({ data: data });
 };
 
 export const wxChooseImage = () => {

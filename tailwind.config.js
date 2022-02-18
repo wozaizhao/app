@@ -1,4 +1,5 @@
 module.exports = {
+    darkMode: 'class',
     content: ['./src/**/*.{vue,js}'],
     theme: {
         fontSize: {

@@ -1,5 +1,8 @@
 <template>
     <div class="profile">
+        <div class="absolute top-2 right-2" @click="goTo('settings')">
+            <van-icon name="setting-o" size="32" :color="config.primaryColor" />
+        </div>
         <div v-if="isLoggedIn" class="flex items-center py-2 px-3" @click="goTo('profile')">
             <van-image round width="2rem" height="2rem" :src="imgURL(activeUser.avatarUrl) || config.defaultAvatar" />
             <div class="ml-2 w-20 flex-1 flex flex-col">
@@ -11,7 +14,7 @@
         <div v-else class="flex items-center py-2 px-3">
             <van-image round width="2rem" height="2rem" :src="config.defaultAvatar" />
             <div class="ml-2 w-20 flex-1 flex flex-col">
-                <router-link class="text-base text-gray-900" to="/login">去登录</router-link>
+                <router-link class="text-base text-black dark:text-white" to="/login">去登录</router-link>
             </div>
         </div>
         <van-cell-group class="mt-1" inset>
@@ -25,7 +28,7 @@
             <van-cell title="单元格" is-link value="内容" />
         </van-cell-group>
         <div class="p-2" v-if="isLoggedIn">
-            <van-button plain round block type="primary" @click="postMessage">退出</van-button>
+            <van-button plain round block type="primary" @click="logout">退出</van-button>
         </div>
         <tarbar></tarbar>
     </div>
@@ -34,7 +37,7 @@
 <script>
 import tarbar from '../components/tarbar.vue';
 import mixinApp from '../mixins/app';
-import { isLoggedIn, activeUser, logout, postMessage } from '../api';
+import { isLoggedIn, activeUser, logout } from '../api';
 import config from '../config';
 import { imgURL } from '../utils';
 // import { onMounted } from 'vue';
@@ -51,7 +54,6 @@ export default {
             activeUser,
             logout,
             imgURL,
-            postMessage,
         };
     },
 };

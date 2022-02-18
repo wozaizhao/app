@@ -1,5 +1,5 @@
 <template>
-    <div class="register w-screen h-screen bg-white pt-5">
+    <div class="login w-screen h-screen pt-5">
         <van-form @submit="onSubmit">
             <van-cell-group inset>
                 <van-field
@@ -49,7 +49,7 @@
 
 <script>
 import { ref, reactive, computed, onBeforeUnmount } from 'vue';
-import { requestCaptcha, login, getRouter } from '../api';
+import { requestCaptcha, login, getRouter, getEnv, wxPostMessage } from '../api';
 
 export default {
     setup() {
@@ -86,9 +86,14 @@ export default {
             login({
                 phone,
                 code,
-            }).then((res) => {
+            }).then(async (res) => {
                 submiting.value = false;
                 if (res.status === 'success') {
+                    const env = await getEnv();
+                    if (env.miniprogram) {
+                        wxPostMessage(res.data);
+                    }
+                    // 如果是小程序 就向小程序发新的token
                     getRouter().push('/');
                 }
             });
@@ -160,4 +165,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.login {
+    --van-cell-background-color: transparent;
+    --van-cell-group-background-color: transparent;
+}
+</style>

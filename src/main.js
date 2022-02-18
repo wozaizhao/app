@@ -14,6 +14,7 @@ import {
     ActionSheet,
     RadioGroup,
     Radio,
+    Switch,
     // Picker,
 } from 'vant';
 
@@ -73,6 +74,7 @@ export const wzzApp = async () => {
     app.use(ActionSheet);
     app.use(RadioGroup);
     app.use(Radio);
+    app.use(Switch);
     // app.use(Picker);
 
     await router.isReady();
