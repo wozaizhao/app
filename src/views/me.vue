@@ -1,7 +1,7 @@
 <template>
     <div class="profile">
         <div class="absolute top-2 right-2" @click="goTo('settings')">
-            <van-icon name="setting-o" size="28" :color="config.primaryColor" />
+            <van-icon name="setting-o" size="24" :color="config.primaryColor" />
         </div>
         <div v-if="isLoggedIn" class="flex items-center py-2 px-3" @click="goTo('profile')">
             <van-image round width="2rem" height="2rem" :src="imgURL(activeUser.avatarUrl) || config.defaultAvatar" />

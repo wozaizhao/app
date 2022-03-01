@@ -1,15 +1,18 @@
 <template>
     <div class="settings">
         <van-nav-bar v-if="!isWeapp" title="设置" left-arrow @click-left="goBack" />
-        <van-cell-group class="mt-1" inset>
-            <van-cell center title="深色模式">
-                <template #right-icon>
-                    <van-switch active-color="#82cb72" v-model="darkMode" size="24" />
-                </template>
-            </van-cell>
-            <van-cell title="单元格" is-link value="内容" />
-            <van-cell title="单元格" is-link value="内容" />
-        </van-cell-group>
+        <div class="pt-1">
+            <van-cell-group inset>
+                <van-cell center title="深色模式">
+                    <template #right-icon>
+                        <van-switch active-color="#82cb72" v-model="darkMode" size="24" />
+                    </template>
+                </van-cell>
+                <van-cell title="单元格" is-link value="内容" />
+                <van-cell title="单元格" is-link value="内容" />
+            </van-cell-group>
+        </div>
+
         <div class="p-2">
             <van-button round block type="primary">按钮</van-button>
         </div>
