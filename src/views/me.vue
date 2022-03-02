@@ -6,7 +6,7 @@
         <div v-if="isLoggedIn" class="flex items-center py-2 px-3" @click="goTo('profile')">
             <van-image round width="2rem" height="2rem" :src="imgURL(activeUser.avatarUrl) || config.defaultAvatar" />
             <div class="ml-2 w-20 flex-1 flex flex-col">
-                <span class="text-base text-gray-900 truncate">{{ activeUser.nickname }}</span>
+                <span class="text-base text-gray-900 dark:text-white truncate">{{ activeUser.nickname }}</span>
                 <span class="text-sm text-gray-400 mt-1 truncate">{{ activeUser.bio || config.defaultBio }}</span>
             </div>
         </div>
