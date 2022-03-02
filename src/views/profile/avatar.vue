@@ -10,10 +10,10 @@
             <van-image v-else class="w-screen" :src="imgURL(activeUser.avatarUrl) || config.defaultAvatar" />
         </div>
         <div v-if="isWeapp" class="w-full text-center fixed bottom-5">
-            <van-button v-show="sdkReady && !cropImg" type="primary" @click="showMenu">更改头像</van-button>
+            <van-button v-show="sdkReady && !cropImg" block type="primary" @click="showMenu">更改头像</van-button>
         </div>
         <div v-if="cropImg" class="w-full text-center fixed bottom-5">
-            <van-button type="primary" @click="save">保存</van-button>
+            <van-button type="primary" block @click="save">保存</van-button>
         </div>
         <input id="inputFile" class="opacity-0" type="file" @change="onFileChange" accept="image/png, image/jpeg" />
         <input
