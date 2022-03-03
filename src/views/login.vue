@@ -95,9 +95,13 @@ export default {
             }).then(async (res) => {
                 submiting.value = false;
                 if (res.status === 'success') {
-                    const env = await getEnv();
-                    if (env.miniprogram) {
-                        wxPostMessage(res.data);
+                    try {
+                        const env = await getEnv();
+                        if (env.miniprogram) {
+                            wxPostMessage(res.data);
+                        }
+                    } catch (e) {
+                        console.log(e);
                     }
                     // 如果是小程序 就向小程序发新的token
                     getRouter().push('/');
