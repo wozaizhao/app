@@ -9,11 +9,15 @@
             <img v-if="cropImg" class="w-screen block" id="cropImg" :src="cropImg" alt="avatar" />
             <van-image v-else class="w-screen" :src="imgURL(activeUser.avatarUrl) || config.defaultAvatar" />
         </div>
-        <div v-if="isWeapp" class="w-full p-2 text-center fixed bottom-5">
-            <van-button v-show="sdkReady && !cropImg" block type="primary" @click="showMenu">更改头像</van-button>
-        </div>
-        <div v-if="cropImg" class="w-full p-2 text-center fixed bottom-5">
-            <van-button type="primary" block @click="save">保存</van-button>
+        <div class="w-full fixed bottom-5">
+            <div v-if="isWeapp" class="p-2">
+                <van-button v-show="sdkReady && !cropImg" round block plain type="primary" @click="showMenu"
+                    >更改头像</van-button
+                >
+            </div>
+            <div v-if="cropImg" class="p-2">
+                <van-button type="primary" block round @click="save">保存</van-button>
+            </div>
         </div>
         <input id="inputFile" class="opacity-0" type="file" @change="onFileChange" accept="image/png, image/jpeg" />
         <input
